@@ -32,3 +32,7 @@ Return the next nonce for this sender.
 | incrementNonce        | uint192 key                      | public      | N/A         | Allows an account to manually increment its own nonce by incrementing the value of nonceSequenceNumber[msg.sender][key] by 1. |
 | _validateAndUpdateNonce | address sender, uint256 nonce   | internal    | bool        | Validates and updates nonce uniqueness for the given account by checking if nonceSequenceNumber[sender][key] incremented by 1 is equal to the value of seq, which is extracted from nonce by bitwise ANDing it with 64 bits and converting it to uint64. Returns true if validation is successful. |
 
+
+---------------------------
+
+
