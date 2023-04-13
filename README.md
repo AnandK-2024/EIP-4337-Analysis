@@ -9,3 +9,10 @@
 | unlockStake | N/A | external | N/A | Attempts to unlock the stake |
 | withdrawStake | address payable withdrawAddress | external | N/A | Withdraws from the (unlocked) stake |
 | withdrawTo | address payable withdrawAddress, uint256 withdrawAmount | external | N/A | Withdraws from the deposit |
+
+----------------------------------
+## Sender Creator contract
+
+| Function Name | Function Argument | Visibility | Return Type | One-line Description |
+|---------------|-------------------|------------|-------------|----------------------|
+| createSender  | bytes calldata initCode | external | address | Call the "initCode" factory to create and return the sender account address. |
