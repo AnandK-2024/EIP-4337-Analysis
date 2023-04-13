@@ -16,3 +16,17 @@
 | Function Name | Function Argument | Visibility | Return Type | One-line Description |
 |---------------|-------------------|------------|-------------|----------------------|
 | createSender  | bytes calldata initCode | external | address | Call the "initCode" factory to create and return the sender account address. |
+
+-------------------
+
+## Nonce Manager contract
+
+Return the next nonce for this sender.
+
+* Within a given key, the nonce values are sequenced (starting with zero, and incremented by one on each userop)
+* But UserOp with different keys can come with arbitrary order.
+
+| Function Name | Function Argument(s) | Visibility | Return Type | One Line Description |
+| ------------- | -------------------- | ---------- | ----------- | -------------------- |
+| getNonce | `address sender, uint192 key` | external view | `uint256` | Return the next nonce for the given sender and key. |
+| incrementNonce | `uint192 key` | external | N/A | Manually increment the nonce of the sender for the given key. |
