@@ -89,4 +89,36 @@ Return the next nonce for this sender.
 | min | uint256 a, uint256 b | internal pure | uint256 | Returns the minimum value between two uint256 values. |
 
 
+-------------------------------------------
+## Entry Point contract
+
+| Function Name | Arguments | Visibility | Description |
+|---------------|-----------|------------|-------------|
+| UserOperationEvent | userOpHash: bytes32<br>sender: address<br>paymaster: address<br>nonce: uint256<br>success: bool<br>actualGasCost: uint256<br>actualGasUsed: uint256 | event | Event emitted after each successful request |
+| AccountDeployed | userOpHash: bytes32<br>sender: address<br>factory: address<br>paymaster: address | event | Event emitted when an account is deployed |
+| UserOperationRevertReason | userOpHash: bytes32<br>sender: address<br>nonce: uint256<br>revertReason: bytes | event | Event emitted when UserOperation callData reverts with non-zero length |
+| BeforeExecution | - | event | Event emitted before starting the execution loop |
+| SignatureAggregatorChanged | aggregator: address | event | Event emitted when the signature aggregator is changed |
+| FailedOp | opIndex: uint256<br>reason: string | error | Custom revert error for handleOps function |
+| SignatureValidationFailed | aggregator: address | error | Error case when signature aggregator fails to verify the aggregated signature |
+| ValidationResult | returnInfo: ReturnInfo<br>senderInfo: StakeInfo<br>factoryInfo: StakeInfo<br>paymasterInfo: StakeInfo | error | Successful result from simulateValidation |
+| ValidationResultWithAggregation | returnInfo: ReturnInfo<br>senderInfo: StakeInfo<br>factoryInfo: StakeInfo<br>paymasterInfo: StakeInfo<br>aggregatorInfo: AggregatorStakeInfo | error | Successful result from simulateValidation with aggregator info |
+| SenderAddressResult | sender: address | error | Return value of getSenderAddress |
+| ExecutionResult | preOpGas: uint256<br>paid: uint256<br>validAfter: uint48<br>validUntil: uint48<br>targetSuccess: bool<br>targetResult: bytes | error | Return value of simulateHandleOp |
+
+
+| Function Name | Arguments | Visibility | Description |
+|---------------|-----------|------------|-------------|
+| handleOps | ops: bytes[],beneficiary | external | Function to handle multiple operations in a batch |
+| getUserOpHash | UserOperation | view | Function to handle a single operation |
+| getSenderAddress | bytes initcode| external |generate a request Id - unique identifier for this request.the request ID is a hash over the content of the userOp (except the signature), the entrypoint and the chainid.|
+| simulateValidation | userOperation | external|Simulate a call to account.validateUserOp and paymaster.validatePaymasterUserOp.|
+| simulateHandleOp | op: UserOperation<br> address target<br> bytes targetcallData | external |simulate full execution of a UserOperation (including both validation and target execution)|
+| handleAggregatedOps | UserOpsPerAggregator[],beneficiary | external | Execute a batch of UserOperation with Aggregators |
+
+
+
+
+
+
 
