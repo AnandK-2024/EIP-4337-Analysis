@@ -56,3 +56,37 @@ Return the next nonce for this sender.
 | postOp | PostOpMode mode, bytes calldata context, uint256 actualGasCost | external | N/A | This function is the post-operation handler. It takes in the mode which can be opSucceeded, opReverted, or postOpReverted, the context value returned by validatePaymasterUserOp, and the actual gas cost used so far. It handles the post-operation logic based on the mode received. |
 
 
+--------------------------------------------------------
+## UserOperation Contract
+
+* struct UserOperation
+
+
+| Struct Name         | Params                        | Description                                                                                                              |
+|--------------------|--------------------------------|----------------------------------------------------------------------------------------------------------|
+| UserOperation       | `sender`                       | The sender account of this request.                                                                                |
+|                    | `nonce`                        | Unique value the sender uses to verify it is not a replay.                                                   |
+|                    | `initCode`                     | If set, the account contract will be created by this constructor.                                              |
+|                    | `callData`                     | The method call to execute on this account.                                                                      |
+|                    | `callGasLimit`                 | The gas limit passed to the callData method call.                                                               |
+|                    | `verificationGasLimit`         | Gas used for validateUserOp and validatePaymasterUserOp.                                                       |
+|                    | `preVerificationGas`           | Gas not calculated by the handleOps method, but added to the gas paid. Covers batch overhead.              |
+|                    | `maxFeePerGas`                 | Same as EIP-1559 gas parameter.                                                                                     |
+|                    | `maxPriorityFeePerGas`        | Same as EIP-1559 gas parameter.                                                                                   |
+|                    | `paymasterAndData`            | If set, this field holds the paymaster address and paymaster-specific data. The paymaster will pay for the transaction instead of the sender. |
+|                    | `signature`                     | Sender-verified signature over the entire request, the EntryPoint address, and the chain ID.         |
+
+
+
+* Functions
+
+| Function Name | Function Argument | Visibility | Return Type | Working |
+|---------------|-------------------|------------|-------------|---------|
+| getSender | UserOperation calldata userOp | internal pure | address | Returns the sender address from the UserOperation struct by reading the first member of the calldata using assembly. |
+| gasPrice | UserOperation calldata userOp | internal view | uint256 | Calculates the gas price for the UserOperation struct by considering maxFeePerGas and maxPriorityFeePerGas, and taking into account the basefee of the current block. |
+| pack | UserOperation calldata userOp | internal pure | bytes | Packs the fields of the UserOperation struct into a bytes array using abi.encode. |
+| hash | UserOperation calldata userOp | internal pure | bytes32 | Calculates the hash of the packed UserOperation struct using keccak256. |
+| min | uint256 a, uint256 b | internal pure | uint256 | Returns the minimum value between two uint256 values. |
+
+
+
