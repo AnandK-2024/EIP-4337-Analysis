@@ -116,6 +116,35 @@ Return the next nonce for this sender.
 | simulateHandleOp | op: UserOperation<br> address target<br> bytes targetcallData | external |simulate full execution of a UserOperation (including both validation and target execution)|
 | handleAggregatedOps | UserOpsPerAggregator[],beneficiary | external | Execute a batch of UserOperation with Aggregators |
 
+----------------------------------------
+
+## Wallet contract
+
+| Function Name         | Arguments              | Visibility | Return Type | One-line Description                                  |
+|-----------------------|------------------------|------------|-------------|------------------------------------------------------|
+| initialize            | _entryPoint<br> _owner<br><br> _upgradeDelay<br> _guardianDelay<br> _guardian   | public     | N/A         | Initialized function to setup the smart Wallet contract |
+| nonce                 | N/A                    | public     | uint256     | Return the contract nonce                            |
+| entryPoint            | N/A                    | public     | IEntryPoint | Return the entrypoint address                        |
+| onlyOwner             | N/A                    | modifier   | N/A         | Modifier for only owner                               |
+| onlyOwnerOrFromEntryPoint | N/A               | modifier   | N/A         | Modifier that can be called by owner or from entrypoint |
+| fallback              | N/A                    | fallback   | N/A         | Fallback function to receive Ether                   |
+| registerCallback      | _callback              | external   | N/A         | Register a callback function                         |
+| upgradeLogic          | _newLogic              | external   | N/A         | Upgrade the logic contract                           |
+| upgradeAccount        | _account              | external   | N/A         | Upgrade an account to the new logic contract         |
+| isOwner               | _address               | public     | bool        | Check if an address is the owner of the contract      |
+| isGuardian            | _address               | public     | bool        | Check if an address is a guardian                    |
+| authorizeGuardian     | _guardian             | external   | N/A         | Authorize a guardian                                 |
+| removeGuardian        | _guardian             | external   | N/A         | Remove authorization of a guardian                   |
+| getGuardian           | N/A                    | public     | address     | Get the current guardian address                     |
+| setGuardian           | _guardian             | external   | N/A         | Set a new guardian                                   |
+| setGuardianDelay      | _guardianDelay        | external   | N/A         | Set the guardian delay                               |
+| getGuardianDelay      | N/A                    | public     | uint32      | Get the current guardian delay                       |
+| isUpgrading           | N/A                    | public     | bool        | Check if the contract is currently upgrading         |
+| setUpgradeDelay       | _upgradeDelay         | external   | N/A         | Set the upgrade delay                                |
+| getUpgradeDelay       | N/A                    | public     | uint32      | Get the current upgrade delay                        |
+| getUpgradeStartTime   | N/A                    | public     | uint256     | Get the start time of the current upgrade            |
+| getUpgradeEndTime     | N/A                    | public     | uint256     | Get the end time of the current upgrade              |
+| getUpgradeProgress    | N/A                    | public     | uint256     | Get the progress of the current upgrade              |
 
 
 
