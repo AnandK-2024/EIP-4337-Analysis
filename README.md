@@ -47,3 +47,12 @@ Return the next nonce for this sender.
 | _payPrefund() | uint256 missingAccountFunds | internal | None | Sends missing funds to the entrypoint (msg.sender) for the current transaction. |
 
 
+--------------------------------------------------------
+## paymaster Contract
+
+| Function Name | Function Argument | Visibility | Return Type | Working |
+|---------------|-------------------|------------|-------------|---------|
+| validatePaymasterUserOp | UserOperation calldata userOp, bytes32 userOpHash, uint256 maxCost | external | bytes memory | This function is used for payment validation. It takes in user operation details, including the user operation data, its hash, and the maximum cost of the transaction (based on gas and gas price from userOp). It returns a context value to be sent to the postOp function, and a validationData which includes the signature and time-range of the operation. |
+| postOp | PostOpMode mode, bytes calldata context, uint256 actualGasCost | external | N/A | This function is the post-operation handler. It takes in the mode which can be opSucceeded, opReverted, or postOpReverted, the context value returned by validatePaymasterUserOp, and the actual gas cost used so far. It handles the post-operation logic based on the mode received. |
+
+
