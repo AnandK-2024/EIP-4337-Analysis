@@ -34,5 +34,16 @@ Return the next nonce for this sender.
 
 
 ---------------------------
+## Base Account contract
+
+| Function Name | Function Argument | Visibility | Return Type | Working |
+|---------------|-------------------|------------|-------------|---------|
+| nonce()       | None              | public     | uint256     | Returns the account nonce value. |
+| entryPoint()  | None              | public     | IEntryPoint | Returns the current entryPoint used by this account. |
+| validateUserOp() | UserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds | external | uint256 | Validates user's signature and nonce, and updates the account state to prevent replay attacks. Also sends missing funds to the entrypoint. |
+| _requireFromEntryPoint() | None | internal | None | Ensures that the request comes from the known entrypoint. |
+| _validateSignature() | UserOperation calldata userOp, bytes32 userOpHash | internal | uint256 | Validates the signature of the userOp against the provided userOpHash and returns validation data. |
+| _validateAndUpdateNonce() | UserOperation calldata userOp | internal | None | Validates that the current nonce matches the UserOperation nonce, and updates the account's state to prevent replay attacks. |
+| _payPrefund() | uint256 missingAccountFunds | internal | None | Sends missing funds to the entrypoint (msg.sender) for the current transaction. |
 
 
